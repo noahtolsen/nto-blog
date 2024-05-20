@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Noah's Blog"
+  favicon: "nto_icon.jpg"
   navbar:
     right:
       - about.qmd
