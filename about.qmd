@@ -1,19 +1,26 @@
 ---
-title: "About"
-image: profile.jpg
+title: "About Me"
+image: nto_icon.jpg
 about:
   template: jolla
   links:
-    - icon: twitter
+    - icon: twitter-x
       text: Twitter
-      href: https://twitter.com
+      href: https://twitter.com/noahtolsen
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://www.linkedin.com/in/noah-olsen/
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/noahtolsen
+    - icon: envelope-fill
+      text: Email
+      href: mailto:noah.t.olsen@gmail.com?subject=Let%27s%20Connect
 
 ---
 
-About this blog
+Hey there, I’m Noah, a passionate Data Scientist and Machine Learning Engineer living in Northfield, Vermont, with my fiancée Caroline and our two dogs, Leila and Honey. I love keeping up with all the progress and innovation in the ML world, though the pace of progress can be dizzying at times.
+
+This blog is a place for me to write down my thoughts on what I’m reading and learning. I find that writing helps me retain information better. I hope you find my posts insightful and engaging.
+
+I’m always eager to connect with others in the industry. Feel free to reach out to me on LinkedIn, Twitter, or via email. Let’s connect and share our passion for data science and machine learning!
