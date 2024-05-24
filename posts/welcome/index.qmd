@@ -5,7 +5,7 @@ date: "2024-05-19"
 categories: [news]
 ---
 
-This is the first post in a Quarto blog. Welcome! Nothing really to talk about yet, so enjoy a photos of my dogs Leila and Honey.
+This is the first post in a Quarto blog. Welcome! Nothing really to talk about yet, so enjoy some photos of my dogs Leila and Honey.
 
 ![](leila_honey.jpg){width=33%}![](leila_portrait.jpg){width=33%}![](honey_lifejacket.jpg){width=33%}
 
