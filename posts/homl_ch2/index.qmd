@@ -1,0 +1,207 @@
+---
+title: "Hands on Machine Learning Chapter 2"
+author: "Noah Olsen"
+date: "2024-05-29"
+categories: [HOML, Machine Learning]
+jupyter: python3
+---
+
+## Intro
+Hey there! I've been rereading Aurélien Géron's excellent book [Hands-On Machine Learning with Scikit-Learn, Keras & Tensorflow](https://www.oreilly.com/library/view/hands-on-machine-learning/9781491962282/).
+
+
+![](homl.jpeg){}
+
+It's a fantastic book that a highly recommend taking a look at. I'm going to go back through the book talking a little about each chapter and going through the exercises at the end of each chapter.
+
+Chapter 2 focused on an example end to end machine learning project/workflow. The dataset used was the California Housing dataset, a common regression dataset in ML. The task is to predict the value of an unseen house based on district level housing data in California. Here is a sample of the dataset.
+
+```{python}
+#| echo: false
+from pathlib import Path
+import pandas as pd
+import tarfile
+import urllib.request
+from itables import show
+import itables.options as opt
+
+def load_housing_data():
+    tarball_path = Path("datasets/housing.tgz")
+    if not tarball_path.is_file():
+        Path("datasets").mkdir(parents=True, exist_ok=True)
+        url = "https://github.com/ageron/data/raw/main/housing.tgz"
+        urllib.request.urlretrieve(url, tarball_path)
+        with tarfile.open(tarball_path) as housing_tarball:
+            housing_tarball.extractall(path="datasets")
+    return pd.read_csv(Path("datasets/housing/housing.csv"))
+
+housing = load_housing_data()
+opt.show_info = False
+housing_example = housing[:500]
+show(housing_example)
+```
+
+## Chapter Summary
+
+```{python}
+#| echo: false
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn .metrics.pairwise import rbf_kernel
+from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.compose import ColumnTransformer, make_column_selector, make_column_transformer
+from sklearn.cluster import KMeans
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.preprocessing import FunctionTransformer
+import numpy as np
+
+housing["income_cat"] = pd.cut(housing["median_income"], bins=[0.,1.5,3.,4.5,6.,np.inf],
+labels=[1,2,3,4,5])
+
+strat_train_set, strat_test_set = train_test_split(housing, test_size=0.2, stratify=housing["income_cat"], random_state=42)
+
+for set_ in (strat_train_set, strat_test_set):
+    set_.drop("income_cat", axis=1, inplace=True)
+
+housing = strat_train_set.drop("median_house_value", axis=1)
+housing_labels = strat_train_set["median_house_value"].copy()
+cat_pipeline = make_pipeline(
+    SimpleImputer(strategy="most_frequent"),
+    OneHotEncoder(handle_unknown="ignore")
+)
+
+
+class ClusterSimilarity(BaseEstimator, TransformerMixin):
+    def __init__(self, n_clusters=10, gamma=1.0, random_state=None):
+        self.n_clusters = n_clusters
+        self.gamma = gamma
+        self.random_state = random_state
+    
+    def fit(self, X, y=None, sample_weight=None):
+        self.kmeans_ = KMeans(self.n_clusters, random_state=self.random_state)
+        self.kmeans_.fit(X, sample_weight=sample_weight)
+        return self
+    
+    def transform(self, X):
+        return rbf_kernel(X, self.kmeans_.cluster_centers_, gamma=self.gamma)
+    
+    def get_feature_names_out(self, names=None):
+        return [f"Cluster {i} similarity" for i in range(self.n_clusters)]
+
+
+
+
+
+
+
+def column_ratio(X):
+    return X[:, [0]] / X[:, [1]]
+
+def ratio_name(function_transformer, feature_names_in):
+    return ["ratio"]
+
+def ratio_pipeline():
+    return make_pipeline(
+        SimpleImputer(strategy="median"),
+        FunctionTransformer(column_ratio, feature_names_out=ratio_name),
+        StandardScaler()
+    )
+
+log_pipeline = make_pipeline(
+    SimpleImputer(strategy="median"),
+    FunctionTransformer(np.log, feature_names_out="one-to-one"),
+    StandardScaler()
+)
+
+cluster_simil = ClusterSimilarity(n_clusters=10, gamma=0.1, random_state=42)
+default_num_pipeline = make_pipeline(SimpleImputer(strategy="median"),
+StandardScaler())
+
+preprocessing = ColumnTransformer([
+    ("bedrooms", ratio_pipeline(), ["total_bedrooms", "total_rooms"]),
+    ("rooms_per_house", ratio_pipeline(), ["total_rooms", "households"]),
+    ("people_per_house", ratio_pipeline(), ["population", "households"]),
+    ("log", log_pipeline, ["total_bedrooms", "total_rooms", "population", "households", "median_income"]),
+    ("geo", cluster_simil, ["latitude", "longitude"]),
+    ("cat", cat_pipeline, make_column_selector(dtype_include=object))],
+    remainder=default_num_pipeline)
+
+housing_prepared = preprocessing.fit_transform(housing)
+
+
+```
+
+After putting together a preprocessing pipeline that's summarized in the model graph below, we can start with the simplest possible model, a linear regression.
+```{python}
+from sklearn.linear_model import LinearRegression
+
+preprocessing = ColumnTransformer([
+    ("bedrooms", ratio_pipeline(), ["total_bedrooms", "total_rooms"]),
+    ("rooms_per_house", ratio_pipeline(), ["total_rooms", "households"]),
+    ("people_per_house", ratio_pipeline(), ["population", "households"]),
+    ("log", log_pipeline, ["total_bedrooms", "total_rooms", "population", "households", "median_income"]),
+    ("geo", cluster_simil, ["latitude", "longitude"]),
+    ("cat", cat_pipeline, make_column_selector(dtype_include=object))],
+    remainder=default_num_pipeline)
+
+housing_prepared = preprocessing.fit_transform(housing)
+
+lin_reg = make_pipeline(preprocessing, LinearRegression())
+lin_reg.fit(housing, housing_labels)
+```
+
+Now how does this simple model perform?
+
+```{python}
+from sklearn.metrics import root_mean_squared_error
+
+housing_predictions = lin_reg.predict(housing)
+lin_rmse = root_mean_squared_error(housing_labels, housing_predictions)
+
+print(f"The average prediction error for the linear regression model\nas measured by the root mean squared error is ${lin_rmse:,.2f}")
+
+```
+
+So clearly this model does not have particularly strong results. Next we can try a decision tree model.
+
+```{python}
+from sklearn.tree import DecisionTreeRegressor
+
+tree_reg = make_pipeline(preprocessing, DecisionTreeRegressor(random_state=42))
+tree_reg.fit(housing, housing_labels)
+housing_predictions = tree_reg.predict(housing)
+tree_rmse = root_mean_squared_error(housing_labels, housing_predictions)
+print(f"The average prediction error for the decision tree model\nas measured by the root mean squared error is ${tree_rmse:,.2f}")
+
+
+```
+
+Wow! A perfect model, that's great! Not so fast, the first rule of machine learning is to always treat results that seem to good to be true. While our previous model was underfitting the data, not providing enough insight to offer good predictions. This model is overfitting, learning the training data too well. While it can perfectly predict a value when we give it results it has already seen (which is what we are doing here), it will generalize very poorly to new data.
+
+Let's try using scikit-learn's k fold cross validation function. Here, we split the data in to k non-overlapping subsets (folds) and train the decision tree model k times, each time holding out a different fold for model evaluation and using the other k-1 to train the model. In the end you end up with an array with ten evaluation scores.
+
+```{python}
+from sklearn.model_selection import cross_val_score
+
+tree_rmses = -cross_val_score(tree_reg, housing, housing_labels, 
+                                scoring="neg_root_mean_squared_error", cv=10)
+pd.Series(tree_rmses).describe()
+
+```
+
+Now the model looks less than perfect. In fact, the average root mean squared error of $66,719.53 is almost as bad as the linear regression model. So clearly we need to look further. A good place to look next is a Random Forest model. Random Forest is an extension of Decision Trees where we train many different decision trees on subsets of the training data and average out their results. They are very simply to train in scikit-learn.
+
+```{python}
+from sklearn.ensemble import RandomForestRegressor
+
+forest_reg = make_pipeline(preprocessing,
+                           RandomForestRegressor(random_state=42))
+
+forest_rmses = -cross_val_score(forest_reg, housing, housing_labels, 
+                                scoring="neg_root_mean_squared_error", cv=10)
+pd.Series(forest_rmses).describe()
+```
+
+That's already an improvement of at almost $20,000! But can we do better?
