@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/quantization/index.html",
       "/posts/homl_ch2/index.html",
       "/posts/job_alerts_pt1/index.html",
       "/posts/welcome/index.html"

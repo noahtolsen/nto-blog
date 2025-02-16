@@ -42,6 +42,27 @@
     "text": "Future Directions\nI definitely don’t see this as a finished product. In the future, I plan to continue adding new companies; there are just so many cool companies doing exciting, groundbreaking work in machine learning and data science. I also have plans to integrate the Notion API to send the scraped posts directly to the Notion database I use to organize my job applications. I would also like to experiment with integrating the OpenAI API to have GPT-4 score each job posting based on how qualified I am for the position by comparing each job to my resume. So stay tuned for a post on those updates!"
   },
   {
+    "objectID": "posts/quantization/index.html",
+    "href": "posts/quantization/index.html",
+    "title": "Quantization of LLMs",
+    "section": "",
+    "text": "I recently had a job interview where I was asked to go into the technical details about the quantization of LLMs. It had been a while since I had looked at quantization so I blanked a little bit and the details that I did provide were wrong. So I thought this would be a great moment for a blog post on quantization to drive it back into my own brain."
+  },
+  {
+    "objectID": "posts/quantization/index.html#intro",
+    "href": "posts/quantization/index.html#intro",
+    "title": "Quantization of LLMs",
+    "section": "",
+    "text": "I recently had a job interview where I was asked to go into the technical details about the quantization of LLMs. It had been a while since I had looked at quantization so I blanked a little bit and the details that I did provide were wrong. So I thought this would be a great moment for a blog post on quantization to drive it back into my own brain."
+  },
+  {
+    "objectID": "posts/quantization/index.html#high-level-background",
+    "href": "posts/quantization/index.html#high-level-background",
+    "title": "Quantization of LLMs",
+    "section": "High Level Background",
+    "text": "High Level Background\nThe main goal of quantization is to make large language models (LLMs) more efficient by reducing their memory footprint and computational requirement. As LLMs have continued to improve and model developers pursue the scaling theory that more parameters leads to more performance, many of the state of the art models cannot be run for inference efficiently with the standard computer hardware that the vast majority of people have access to.\nFor example, Meta’s largest and most advanced model Llama 3.1 405B would require at least 8 NVIDIA A100 GPUs, far beyond what most people dabbling with LLMs have access to.\nThe idea behind quantization is to reduce the memory requirements of running inference on a model by lowering the precision of model weights from FP32 to FP8. FP32 allows for high numerical precision, but this comes at the cost of increased memory usage. This tradeoff becomes particularly challenging at scale—for example, storing 405 billion FP32 weights in a massive LLM requires enormous memory and computational resources."
+  },
+  {
     "objectID": "posts/welcome/index.html",
     "href": "posts/welcome/index.html",
     "title": "Welcome To My Blog",
@@ -74,6 +95,6 @@
     "href": "index.html",
     "title": "Noah’s Blog",
     "section": "",
-    "text": "Hands on Machine Learning Chapter 2\n\n\n\n\n\n\nHOML\n\n\nMachine Learning\n\n\n\n\n\n\n\n\n\nMay 29, 2024\n\n\nNoah Olsen\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Job Posting Tracker\n\n\n\n\n\n\njob tracker\n\n\nweb scraping\n\n\njob applications\n\n\ngcp\n\n\ndocker\n\n\n\n\n\n\n\n\n\nMay 24, 2024\n\n\nNoah Olsen\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 19, 2024\n\n\nNoah Olsen\n\n\n\n\n\n\nNo matching items"
+    "text": "Quantization of LLMs\n\n\n\n\n\n\nGenerative AI\n\n\nMachine Learning\n\n\nDRAFT\n\n\n\n\n\n\n\n\n\nFeb 15, 2025\n\n\nNoah Olsen\n\n\n\n\n\n\n\n\n\n\n\n\nHands on Machine Learning Chapter 2\n\n\n\n\n\n\nHOML\n\n\nMachine Learning\n\n\n\n\n\n\n\n\n\nMay 29, 2024\n\n\nNoah Olsen\n\n\n\n\n\n\n\n\n\n\n\n\nBuilding a Job Posting Tracker\n\n\n\n\n\n\njob tracker\n\n\nweb scraping\n\n\njob applications\n\n\ngcp\n\n\ndocker\n\n\n\n\n\n\n\n\n\nMay 24, 2024\n\n\nNoah Olsen\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 19, 2024\n\n\nNoah Olsen\n\n\n\n\n\n\nNo matching items"
   }
 ]
