@@ -20,7 +20,7 @@ The idea behind quantization is to reduce the memory requirements of running inf
 Now that we have a basic understanding of what we are trying to do with quantization, it is important to understand the concepts behind floating point precision and what characteristics make different Floating Point Precision formats different for the sake of LLM inference.
 
 ```{python}
-#| echo: false
+
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
@@ -36,6 +36,10 @@ colors = {"Sign": "#E74C3C", "Exponent": "#F1C40F", "Mantissa": "#3498DB"}
 
 # Create figure and axis
 fig, ax = plt.subplots(figsize=(10, 5))
+
+# Define spacing and row positions
+y_positions = {"FP32": 2, "FP16": 1, "FP8": 0}
+box_size = 0.9
 
 # Plot individual boxes for each bit
 for fmt, parts in bit_structures.items():
@@ -55,13 +59,14 @@ ax.set_yticks([y_positions["FP32"], y_positions["FP16"], y_positions["FP8"]])
 ax.set_yticklabels(["FP32", "FP16", "FP8"], fontsize=12)
 ax.set_frame_on(False)
 
-# Add legend (moved to bottom right)
+# Add legend
 legend_patches = [patches.Patch(color=colors[key], label=key) for key in colors]
 ax.legend(handles=legend_patches, loc="lower right", title="Bit Breakdown")
 
 # Show the plot
 plt.title("Bit Breakdown of FP32, FP16, and FP8")
 plt.show()
+
 
 
 ```
