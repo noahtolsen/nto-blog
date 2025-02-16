@@ -11,10 +11,11 @@ website:
         href: https://github.com/noahtolsen
       - icon: twitter-x
         href: https://twitter.com/noahtolsen
+
 format:
   html:
     theme: cosmo
     css: styles.css
 
-
-
+execute:
+  freeze: auto # Ensures code runs locally once and caches results

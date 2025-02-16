@@ -21,6 +21,8 @@ Now that we have a basic understanding of what we are trying to do with quantiza
 
 ```{python}
 
+#| echo: false
+
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
@@ -67,13 +69,6 @@ ax.legend(handles=legend_patches, loc="lower right", title="Bit Breakdown")
 plt.title("Bit Breakdown of FP32, FP16, and FP8")
 plt.show()
 
-
-
-```
-
-```{python}
-
-print("Hello World")
 
 
 ```
