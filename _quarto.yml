@@ -18,4 +18,4 @@ format:
     css: styles.css
 
 execute:
-  freeze: auto # Ensures code runs locally once and caches results
+  freeze: false # Ensures code runs locally once and caches results
