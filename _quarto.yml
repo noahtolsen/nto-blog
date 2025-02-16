@@ -18,4 +18,4 @@ format:
     css: styles.css
 
 execute:
-  freeze: false
+  freeze: auto
