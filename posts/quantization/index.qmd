@@ -1,0 +1,17 @@
+---
+title: "Quantization of LLMs"
+author: "Noah Olsen"
+date: "2025-02-15"
+categories: [Generative AI, Machine Learning]
+jupyter: python3
+---
+
+## Intro
+I recently had a job interview where I was asked to go into the technical details about the quantization of LLMs. It  had been a while since I had looked at quantization so I blanked a little bit and the details that I did provide were wrong. So I thought this would be a great moment for a blog post on quantization to drive it back into my own brain.
+
+## High Level Background
+The main goal of quantization is to make large language models (LLMs) more efficient by reducing their memory footprint and computational requirement. As LLMs have continued to improve and model developers pursue the scaling theory that more parameters leads to more performance, many of the state of the art models cannot be run for inference efficiently with the standard computer hardware that the vast majority of people have access to.
+
+For example, Meta's largest and most advanced model Llama 3.1 405B would require at least 8 NVIDIA A100 GPUs, far beyond what most people dabbling with LLMs have access to.
+
+The idea behind quantization is to reduce the memory requirements of running inference on a model by lowering the precision of model weights from FP32 to FP8. FP32 allows for high numerical precision, but this comes at the cost of increased memory usage. This tradeoff becomes particularly challenging at scale—for example, storing 405 billion FP32 weights in a massive LLM requires enormous memory and computational resources.
