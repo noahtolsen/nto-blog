@@ -207,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scraping-job-postings" class="level3">
 <h3 class="anchored" data-anchor-id="scraping-job-postings">Scraping Job Postings</h3>
 <p>The first step is to create a Selenium WebDriver with all the configuration options needed to run a headless Chrome browser.</p>
-<div id="6ff4dcea" class="cell" data-execution_count="1">
+<div id="b511ffac" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
@@ -236,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we have the code to actually visit the <a href="https://www.amazon.jobs/en/search?offset=0&amp;result_limit=10&amp;sort=recent&amp;country%5B%5D=USA&amp;state%5B%5D=Washington&amp;state%5B%5D=California&amp;state%5B%5D=Texas&amp;state%5B%5D=Massachusetts&amp;state%5B%5D=Colorado&amp;distanceType=Mi&amp;radius=24km&amp;latitude=&amp;longitude=&amp;loc_group_id=&amp;loc_query=&amp;base_query=Data%20Scientist&amp;city=&amp;country=&amp;region=&amp;county=&amp;query_options=&amp;">Amazon job portal</a> with URL parameters to prefilter for the types of jobs I am interested in.</p>
-<div id="f1457413" class="cell" data-execution_count="2">
+<div id="190da189" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_job_postings_amazon(driver, url<span class="op">=</span><span class="st">'https://www.amazon.jobs/en/search?offset=0&amp;result_limit=10&amp;sort=recent&amp;country%5B%5D=USA&amp;state%5B%5D=Washington&amp;state%5B%5D=California&amp;state%5B%5D=Texas&amp;state%5B%5D=Massachusetts&amp;state%5B%5D=Colorado&amp;distanceType=Mi&amp;radius=24km&amp;latitude=&amp;longitude=&amp;loc_group_id=&amp;loc_query=&amp;base_query=Data%20Scientist&amp;city=&amp;country=&amp;region=&amp;county=&amp;query_options=&amp;'</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    logging.info(<span class="ss">f"Fetching job postings from Amazon: </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    driver.get(url)</span>
@@ -293,31 +293,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">'Amazon'</span>: jobs}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we run the code and print out the jobs that were pulled from the portal.</p>
-<div id="7e607643" class="cell" data-execution_count="3">
+<div id="77907cd9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> create_webdriver()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>amazon_jobs <span class="op">=</span> get_job_postings_amazon(driver)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pprint.pp(amazon_jobs[<span class="st">'Amazon'</span>][<span class="dv">0</span>]) <span class="co">#Only printing the first job posting for legibility.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>{'title': 'Data Scientist II',
- 'location': 'Bellevue, WA, USASeattle, WA, USA+1 other locations  ',
- 'link': 'https://www.amazon.jobs/en/jobs/2651002/data-scientist-ii',
- 'posted-date': 'May 22, 2024',
- 'overview-text': 'Basic qualifications:3+ years of data scientist '
-                  'experience3+ years of data querying languages (e.g. SQL), '
-                  'scripting languages (e.g. Python) or '
+<pre><code>{'title': 'Sr. Data Scientist , SCOT - AIM - NA',
+ 'location': 'Bellevue, WA, USA',
+ 'link': 'https://www.amazon.jobs/en/jobs/2899067/sr-data-scientist-scot-aim-na',
+ 'posted-date': 'February 12, 2025',
+ 'overview-text': 'Basic qualifications:7+ years of data scientist or similar '
+                  'role involving data extraction, analysis, statistical '
+                  "modeling and communication experienceMaster's degree in a "
+                  'quantitative field such as statistics, mathematics, data '
+                  'science, business analytics, economics, finance, '
+                  'engineering, or computer science5+ years of data querying '
+                  'languages (e.g. SQL), scripting languages (e.g. Python) or '
                   'statistical/mathematical software (e.g. R, SAS, Matlab, '
-                  'etc.) experience3+ years of machine learning/statistical '
-                  'modeling data analysis tools and techniques, and parameters '
-                  'that affect their performance experienceExperience applying '
-                  "theoretical models in an applied environmentMaster's "
-                  'degree...Read more'}</code></pre>
+                  'etc.) experience...Read more'}</code></pre>
 </div>
 </div>
 </section>
 <section id="sending-the-email" class="level3">
 <h3 class="anchored" data-anchor-id="sending-the-email">Sending the email</h3>
 <p>Now that we have some job postings to work with, we can put that into an email template and send the results.</p>
-<div id="fb003a4a" class="cell" data-execution_count="4">
+<div id="96435078" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> smtplib</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> email.mime.multipart <span class="im">import</span> MIMEMultipart</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> email.mime.text <span class="im">import</span> MIMEText</span>
