@@ -2,7 +2,7 @@
 title: "Quantization of LLMs"
 author: "Noah Olsen"
 date: "2025-02-15"
-categories: [Generative AI, Machine Learning]
+categories: [Generative AI, Machine Learning, DRAFT]
 jupyter: python3
 ---
 
