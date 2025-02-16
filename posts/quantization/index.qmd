@@ -70,3 +70,10 @@ plt.show()
 
 
 ```
+
+```{python}
+
+print("Hello World")
+
+
+```
